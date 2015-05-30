@@ -1,62 +1,148 @@
 var request = require('request-promise');
-var SHA256 = require('crypto-js/sha256');
-var HMAC_SHA256 = require('crypto-js/hmac-sha256');
+var crypto = require('crypto');
+var Promise = require('bluebird');
 
-var API_VERSION = '0.1';
-var CLIENT_VERSION = '0.1.0a';
-var API_HOST =  "http://sandbox.fpa.loc:8080/";
+module.exports = {
+  get: function(html, options) {
+    return api_request("GET", html, options);
+  },
 
-var pub_key = 'pub_9bf66aeef23b99a081f12ae6cd98052a';
-var prv_key = 'prv_a95f6c5eaba704de843c7c058e2a1089677dd63fd77e2cd63fc522a2a8324e27';
+  post: function(html, options) {
+    return api_request("POST", html, options);
+  },
+
+  patch: function(html, options) {
+    return api_request("PATCH", html, options);
+  },
+
+  delete: function(html, options) {
+    return api_request("DELETE", html, options);
+  },
+
+  /**
+   *
+   * Acquired from SO: http://stackoverflow.com/a/171256
+   *
+   * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+   * @param obj1
+   * @param obj2
+   * @returns obj3 a new object based on obj1 and obj2
+   */
+  merge_options: function (obj1,obj2){
+    var obj3 = {};
+    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+    for (attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+    return obj3;
+  }
+
+};
+
 
 function getSignature(path, pub, prv, qs) {
   if(!prv.length) {
     return '';
   }
 
-  var timestamp = Date.now().toString(16);
+  if(qs === undefined || qs.length === 0) {
+    qs = '';
+  }
 
-  var text_to_sign  = '';
-  text_to_sign += timestamp;
-  text_to_sign += pub;
-  text_to_sign += path;
-  text_to_sign += qs;
-  var hashKey  = SHA256(prv);
+  // Calculate text to sign
+  var timestamp = Math.floor(new Date().getTime() / 1000).toString(16);
+
+  var toHash = timestamp + pub + '/' + path + qs;
+
+  var sha256 = crypto.createHash('sha256');
+  var hashKey  = sha256.update(prv).digest('hex');
+  var hmac = crypto.createHmac('sha256', hashKey);
 
   // Sign the text
-  return timestamp + '/' + HMAC_SHA256(text_to_sign, hashKey);
+  return timestamp + '/' + hmac.update(toHash).digest('hex');
 }
 
 function string_to_base64(string){
   return (new Buffer(string)).toString('base64');
 }
 
-module.exports = {
-  get: function(html) {
+function validate_options(options) {
 
-    var accept_version = API_VERSION.replace('.','-');
-    var qs = html.split('?').length > 1 ? html.split('?')[1] : '';
+  // validate that options is present
+  if(options === undefined || !options) {
+    console.log("Error: Configuration options are not set");
+    return false;
+  }
+
+  // validate that the pub and prv keys are present
+  if(options.keys === undefined || options.keys.pub === undefined || options.keys.prv === undefined) {
+    console.log('Error: Keys are missing');
+    return false;
+  }
+
+  // validate that the host version and client version is set, and that we have an api_host
+  if(options.api_version === undefined) {
+    console.log("Error: api version is not set");
+    return false;
+  }
+  if(options.client_version === undefined) {
+    console.log("Error: client version is not set");
+    return false;
+  }
+  if(options.api_host === undefined) {
+    console.log("Error: api host is not set");
+    return false;
+  }
+
+  return true;
+}
+
+function api_request(method, html, options) {
+
+  return Promise.resolve()
+  .then(function(){
+
+    // validate that the method is specified
+    if(method === undefined) {
+      console.log('Error: No HTTP method specified');
+      return false;
+    }
+
+    if(!validate_options(options)) {
+      return false;
+    }
+
+    var accept_version = options.api_version.replace('.','-');
+    var html_parts = html.split('?');
+    var qs = html_parts.length > 1 ? html_parts[1] : '';
+    var path = html_parts.length > 1 ? html_parts[0] + '?' : html_parts[0];
+    var signature = getSignature(path, options.keys.pub, options.keys.prv, qs);
 
     var request_headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.ziftr.fpa-' + accept_version + '+json',
-      'Authorization': 'Basic ' + string_to_base64(pub_key + ':' + getSignature(API_HOST + html, pub_key, prv_key, qs))
+      'Authorization': 'Basic ' + string_to_base64(options.keys.pub + ':' + signature),
+      'User-Agent': 'Ziftr%20API%20Javascript%20Client%20'+ options.client_version
     };
 
-    console.log(request_headers);
+    // construct the request object
+    var request_obj = {
+      method: method,
+      uri: options.api_host + html,
+      headers: request_headers
+    };
 
-    return request({
-        method: "POST",
-        uri: API_HOST,// + html,
-        headers: request_headers
-      })
+    // include request data
+    if(options.data !== undefined) {
+      request_obj.body = JSON.stringify(options.data);
+    }
+
+    // make our request and return as a promise
+    return request(request_obj)
       .then(function(response){
         return { body: response };
       })
       .catch(function(error){
-        console.log(error);
         return { error: error };
       });
-  }
+  });
+}
 
-};
