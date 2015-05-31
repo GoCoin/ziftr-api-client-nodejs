@@ -95,6 +95,20 @@ function validate_options(options) {
   return true;
 }
 
+var BaseException = require('./exceptions/BaseException');
+var BadRequestException = require('./exceptions/BadRequestException');
+var AuthorizationException = require('./exceptions/AuthorizationException');
+var ForbiddenException = require('./exceptions/ForbiddenException');
+var NotFoundException = require('./exceptions/NotFoundException');
+var MethodNotAllowedException = require('./exceptions/MethodNotAllowedException');
+var ValidationException = require('./exceptions/ValidationException');
+var NotAcceptableException = require('./exceptions/NotAcceptableException');
+var InternalServerException = require('./exceptions/InternalServerException');
+var NotImplementedException = require('./exceptions/NotImplementedException');
+var BadGatewayException = require('./exceptions/BadGatewayException');
+var ServiceUnavailableException = require('./exceptions/ServiceUnavailableException');
+var GatewayTimeoutException = require('./exceptions/GatewayTimeoutException');
+
 function api_request(method, html, options) {
 
   return Promise.resolve()
@@ -127,7 +141,8 @@ function api_request(method, html, options) {
     var request_obj = {
       method: method,
       uri: options.api_host + html,
-      headers: request_headers
+      headers: request_headers,
+      resolveWithFullResponse: true
     };
 
     // include request data
@@ -138,10 +153,34 @@ function api_request(method, html, options) {
     // make our request and return as a promise
     return request(request_obj)
       .then(function(response){
-        return { body: response };
+        return { body: response.body, status: response.statusCode };
       })
       .catch(function(error){
-        return { error: error };
+        var err = JSON.parse(error.error);
+
+        // don't log keys in error messages
+        var err_options = options;
+        delete err_options.keys;
+
+        // do include the request_obj
+        err_options.request = request_obj;
+
+        switch(error.statusCode) {
+          case 400: throw new BadRequestException(options, err);
+          case 401: throw new AuthorizationException(options, err);
+          case 403: throw new ForbiddenException(options, err);
+          case 404: throw new NotFoundException(options, err);
+          case 405: throw new MethodNotAllowedException(options, err);
+          case 406: throw new NotAcceptableException(options, err);
+          case 422: throw new ValidationException(options, err);
+          case 500: throw new InternalServerException(options, err);
+          case 501: throw new NotImplimentedException(options, err);
+          case 502: throw new BadGatewayException(options, err);
+          case 503: throw new ServiceUnavailableException(options, err);
+          case 504: throw new GatewayTimeoutException(options, err);
+          default:
+            throw new BaseException(options, err);
+        }
       });
   });
 }
