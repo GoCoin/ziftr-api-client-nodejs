@@ -1,13 +1,25 @@
 {
-  "name": "ziftr-api-client-node",
-  "version": "1.0.0",
+  "name": "ziftr-api-client-nodejs",
+  "version": "0.1.0",
   "description": "Ziftr API Bindings for Node.js",
   "main": "index.js",
   "scripts": {
     "test": "mocha"
   },
   "author": "Ziftr and contributors",
-  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/Ziftr/ziftr-api-client-nodejs"
+  },
+  "bugs": {
+    "url": "https://github.com/Ziftr/ziftr-api-client-nodejs/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/Ziftr/ziftr-api-client-nodejs/LICENSE-MIT"
+    }
+  ],
   "devDependencies": {
     "chai": "^2.3.0",
     "mocha": "^2.2.5"
