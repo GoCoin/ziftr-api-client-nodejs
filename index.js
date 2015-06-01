@@ -153,7 +153,7 @@ function api_request(method, html, options) {
     // make our request and return as a promise
     return request(request_obj)
       .then(function(response){
-        return { body: response.body, status: response.statusCode };
+        return { body: JSON.parse(response.body), statusCode: response.statusCode };
       })
       .catch(function(error){
         var err = JSON.parse(error.error);
