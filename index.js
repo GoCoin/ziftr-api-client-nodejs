@@ -73,7 +73,7 @@ function validate_options(options) {
   }
 
   // validate that the pub and prv keys are present
-  if(options.keys === undefined || options.keys.pub === undefined || options.keys.prv === undefined) {
+  if(options.keys === undefined || options.keys.publishable_key === undefined || options.keys.private_key === undefined) {
     console.log('Error: Keys are missing');
     return false;
   }
@@ -128,12 +128,12 @@ function api_request(method, html, options) {
     var html_parts = html.split('?');
     var qs = html_parts.length > 1 ? html_parts[1] : '';
     var path = html_parts.length > 1 ? html_parts[0] + '?' : html_parts[0];
-    var signature = getSignature(path, options.keys.pub, options.keys.prv, qs);
+    var signature = getSignature(path, options.keys.publishable_key, options.keys.private_key, qs);
 
     var request_headers = {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.ziftr.fpa-' + accept_version + '+json',
-      'Authorization': 'Basic ' + string_to_base64(options.keys.pub + ':' + signature),
+      'Authorization': 'Basic ' + string_to_base64(options.keys.publishable_key + ':' + signature),
       'User-Agent': 'Ziftr%20API%20Javascript%20Client%20'+ options.client_version
     };
 

@@ -1,9 +1,9 @@
 {
   "keys": {
-    "pub": "",
-    "prv": ""
+    "publishable_key" : "",
+    "private_key"     : ""
   },
   "api_version": "0.1",
   "client_version": "0.1.0a",
-  "api_host": "http://sandbox.fpa.loc:3000/"
+  "api_host": "http://sandbox.fpa.bz/"
 }
