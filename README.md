@@ -26,7 +26,17 @@ Modify configuration.js to define host and key information:
 }
 ```
 
-
+## Usage
+The following call will fetch all orders for the API keys' owner:
+```
+api.get("orders", configuration)
+  .then(function(response){
+    console.log(response.body.orders);
+  })
+  .catch(function(error){
+    console.log(error);
+  });
+```
 
 ## Links
 
