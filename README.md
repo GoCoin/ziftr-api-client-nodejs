@@ -10,25 +10,21 @@ This branch is under active development and should not be considered stable for 
 npm install ziftr-api-client-nodejs
 ```
 
-## Configuration
 
-Modify configuration.js to define host and key information:
-
-```javascript
-{
+## Usage
+The following call will fetch all orders for the API keys' owner. Be sure to pass configuration data as shown.
+```
+var api = require('ziftr-api-client-nodejs');
+var configuration = {
   "keys": {
-    "publishable_key": "",
-    "private_key": ""
+    "publishable_key" : "",
+    "private_key"     : ""
   },
   "api_version": "0.1",
   "client_version": "0.1.0a",
   "api_host": "http://sandbox.fpa.bz/"
 }
-```
 
-## Usage
-The following call will fetch all orders for the API keys' owner:
-```
 api.get("orders", configuration)
   .then(function(response){
     console.log(response.body.orders);
