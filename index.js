@@ -174,7 +174,7 @@ function api_request(method, html, options) {
           case 406: throw new NotAcceptableException(options, err);
           case 422: throw new ValidationException(options, err);
           case 500: throw new InternalServerException(options, err);
-          case 501: throw new NotImplimentedException(options, err);
+          case 501: throw new NotImplementedException(options, err);
           case 502: throw new BadGatewayException(options, err);
           case 503: throw new ServiceUnavailableException(options, err);
           case 504: throw new GatewayTimeoutException(options, err);
