@@ -5,5 +5,5 @@
   },
   "api_version": "0.1",
   "client_version": "0.1.0a",
-  "api_host": "http://sandbox.fpa.bz/"
+  "api_host": "https://sandbox.fpa.bz/"
 }
