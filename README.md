@@ -3,7 +3,7 @@
 This branch is under active development and should not be considered stable for use in production systems. For more information please visit: [www.ziftrpay.com](http://www.ziftrpay.com/)
 
 [![@awsforphp on Twitter](http://img.shields.io/badge/twitter-%40ziftrapi-blue.svg?style=flat)](https://twitter.com/ziftrapi)
-[![@awsforphp on Twitter](https://img.shields.io/npm/v/ziftr-api-client-nodejs.svg)](https://twitter.com/ziftrapi)
+[![@awsforphp on Twitter](https://img.shields.io/npm/v/ziftr-api-client-nodejs.svg)](https://www.npmjs.com/package/ziftr-api-client-nodejs)
 
 
 ## Installation
