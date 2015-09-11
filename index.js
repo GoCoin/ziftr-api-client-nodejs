@@ -1,42 +1,55 @@
+/* jshint node: true */
+"use strict";
+
 var request = require('request-promise');
 var crypto = require('crypto');
 var Promise = require('bluebird');
 
-module.exports = {
-  get: function(html, options) {
-    return api_request("GET", html, options);
-  },
-
-  post: function(html, options) {
-    return api_request("POST", html, options);
-  },
-
-  patch: function(html, options) {
-    return api_request("PATCH", html, options);
-  },
-
-  delete: function(html, options) {
-    return api_request("DELETE", html, options);
-  },
-
-  /**
-   *
-   * Acquired from SO: http://stackoverflow.com/a/171256
-   *
-   * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
-   * @param obj1
-   * @param obj2
-   * @returns obj3 a new object based on obj1 and obj2
-   */
-  merge_options: function (obj1,obj2){
-    var obj3 = {};
-    for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
-    for (attrname in obj2) { obj3[attrname] = obj2[attrname]; }
-    return obj3;
-  }
-
+exports.get = function(html, options) {
+  return api_request("GET", html, options);
 };
 
+exports.post = function(html, options) {
+  return api_request("POST", html, options);
+};
+
+exports.patch = function(html, options) {
+  return api_request("PATCH", html, options);
+};
+
+exports.delete = function(html, options) {
+  return api_request("DELETE", html, options);
+};
+
+/**
+ *
+ * Acquired from SO: http://stackoverflow.com/a/171256
+ *
+ * Overwrites obj1's values with obj2's and adds obj2's if non existent in obj1
+ * @param obj1
+ * @param obj2
+ * @returns obj3 a new object based on obj1 and obj2
+ */
+exports.merge_options = function (obj1,obj2){
+  var obj3 = {};
+  for (var attrname in obj1) { obj3[attrname] = obj1[attrname]; }
+  for (attrname in obj2) { obj3[attrname] = obj2[attrname]; }
+  return obj3;
+};
+
+exports.BaseException               = require('./exceptions/BaseException');
+exports.BadRequestException         = require('./exceptions/BadRequestException');
+exports.AuthorizationException      = require('./exceptions/AuthorizationException');
+exports.ForbiddenException          = require('./exceptions/ForbiddenException');
+exports.NotFoundException           = require('./exceptions/NotFoundException');
+exports.MethodNotAllowedException   = require('./exceptions/MethodNotAllowedException');
+exports.ValidationException         = require('./exceptions/ValidationException');
+exports.NotAcceptableException      = require('./exceptions/NotAcceptableException');
+exports.InternalServerException     = require('./exceptions/InternalServerException');
+exports.NotImplementedException     = require('./exceptions/NotImplementedException');
+exports.BadGatewayException         = require('./exceptions/BadGatewayException');
+exports.ServiceUnavailableException = require('./exceptions/ServiceUnavailableException');
+exports.GatewayTimeoutException     = require('./exceptions/GatewayTimeoutException');
 
 function getSignature(path, pub, prv, qs) {
   if(!prv.length) {
@@ -95,20 +108,6 @@ function validate_options(options) {
   return true;
 }
 
-var BaseException = require('./exceptions/BaseException');
-var BadRequestException = require('./exceptions/BadRequestException');
-var AuthorizationException = require('./exceptions/AuthorizationException');
-var ForbiddenException = require('./exceptions/ForbiddenException');
-var NotFoundException = require('./exceptions/NotFoundException');
-var MethodNotAllowedException = require('./exceptions/MethodNotAllowedException');
-var ValidationException = require('./exceptions/ValidationException');
-var NotAcceptableException = require('./exceptions/NotAcceptableException');
-var InternalServerException = require('./exceptions/InternalServerException');
-var NotImplementedException = require('./exceptions/NotImplementedException');
-var BadGatewayException = require('./exceptions/BadGatewayException');
-var ServiceUnavailableException = require('./exceptions/ServiceUnavailableException');
-var GatewayTimeoutException = require('./exceptions/GatewayTimeoutException');
-
 function api_request(method, html, options) {
 
   return Promise.resolve()
@@ -166,20 +165,20 @@ function api_request(method, html, options) {
         err_options.request = request_obj;
 
         switch(error.statusCode) {
-          case 400: throw new BadRequestException(options, err);
-          case 401: throw new AuthorizationException(options, err);
-          case 403: throw new ForbiddenException(options, err);
-          case 404: throw new NotFoundException(options, err);
-          case 405: throw new MethodNotAllowedException(options, err);
-          case 406: throw new NotAcceptableException(options, err);
-          case 422: throw new ValidationException(options, err);
-          case 500: throw new InternalServerException(options, err);
-          case 501: throw new NotImplementedException(options, err);
-          case 502: throw new BadGatewayException(options, err);
-          case 503: throw new ServiceUnavailableException(options, err);
-          case 504: throw new GatewayTimeoutException(options, err);
+          case 400: throw new exports.BadRequestException(options, err);
+          case 401: throw new exports.AuthorizationException(options, err);
+          case 403: throw new exports.ForbiddenException(options, err);
+          case 404: throw new exports.NotFoundException(options, err);
+          case 405: throw new exports.MethodNotAllowedException(options, err);
+          case 406: throw new exports.NotAcceptableException(options, err);
+          case 422: throw new exports.ValidationException(options, err);
+          case 500: throw new exports.InternalServerException(options, err);
+          case 501: throw new exports.NotImplementedException(options, err);
+          case 502: throw new exports.BadGatewayException(options, err);
+          case 503: throw new exports.ServiceUnavailableException(options, err);
+          case 504: throw new exports.GatewayTimeoutException(options, err);
           default:
-            throw new BaseException(options, err);
+            throw new exports.BaseException(options, err);
         }
       });
   });
