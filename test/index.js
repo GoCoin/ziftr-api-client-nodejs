@@ -1,3 +1,7 @@
+/* jshint node: true */
+/* global describe, it */
+"use strict";
+
 var chai = require('chai');
 var should = require('chai').should();
 var api = require('../index');
@@ -76,12 +80,12 @@ describe('validate api endpoints', function() {
   it('attempts to delete an order', function(done){
 
     api.delete("orders/" + order_id, configuration)
-    .then(done)
     .catch(function(ex){
       (ex).should.have.property('name');
       (ex.name).should.equal('NotFoundException');
-      done();
-    });
+    })
+    .then(done)
+    .catch(done);
 
   });
 
