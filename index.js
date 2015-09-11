@@ -155,7 +155,15 @@ function api_request(method, html, options) {
         return { body: JSON.parse(response.body), statusCode: response.statusCode };
       })
       .catch(function(error){
-        var err = JSON.parse(error.error);
+
+        var err;
+        try{
+          err = JSON.parse(error.error);
+        }
+        catch(parseErr){
+          // throw error; // For debugging
+          err = error;
+        }
 
         // don't log keys in error messages
         var err_options = options;
