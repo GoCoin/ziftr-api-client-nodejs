@@ -165,20 +165,20 @@ function api_request(method, html, options) {
         err_options.request = request_obj;
 
         switch(error.statusCode) {
-          case 400: throw new exports.BadRequestException(options, err);
-          case 401: throw new exports.AuthorizationException(options, err);
-          case 403: throw new exports.ForbiddenException(options, err);
-          case 404: throw new exports.NotFoundException(options, err);
-          case 405: throw new exports.MethodNotAllowedException(options, err);
-          case 406: throw new exports.NotAcceptableException(options, err);
-          case 422: throw new exports.ValidationException(options, err);
-          case 500: throw new exports.InternalServerException(options, err);
-          case 501: throw new exports.NotImplementedException(options, err);
-          case 502: throw new exports.BadGatewayException(options, err);
-          case 503: throw new exports.ServiceUnavailableException(options, err);
-          case 504: throw new exports.GatewayTimeoutException(options, err);
+          case 400: throw new exports.BadRequestException(err_options, err);
+          case 401: throw new exports.AuthorizationException(err_options, err);
+          case 403: throw new exports.ForbiddenException(err_options, err);
+          case 404: throw new exports.NotFoundException(err_options, err);
+          case 405: throw new exports.MethodNotAllowedException(err_options, err);
+          case 406: throw new exports.NotAcceptableException(err_options, err);
+          case 422: throw new exports.ValidationException(err_options, err);
+          case 500: throw new exports.InternalServerException(err_options, err);
+          case 501: throw new exports.NotImplementedException(err_options, err);
+          case 502: throw new exports.BadGatewayException(err_options, err);
+          case 503: throw new exports.ServiceUnavailableException(err_options, err);
+          case 504: throw new exports.GatewayTimeoutException(err_options, err);
           default:
-            throw new exports.BaseException(options, err);
+            throw new exports.BaseException(err_options, err);
         }
       });
   });
