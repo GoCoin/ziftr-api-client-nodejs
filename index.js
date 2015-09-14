@@ -7,20 +7,20 @@ var Promise = require('bluebird');
 
 var client_version = "0.1.0-beta.1";
 
-exports.get = function(html, options) {
-  return api_request("GET", html, options);
+exports.get = function(url_path, options) {
+  return api_request("GET", url_path, options);
 };
 
-exports.post = function(html, options) {
-  return api_request("POST", html, options);
+exports.post = function(url_path, options) {
+  return api_request("POST", url_path, options);
 };
 
-exports.patch = function(html, options) {
-  return api_request("PATCH", html, options);
+exports.patch = function(url_path, options) {
+  return api_request("PATCH", url_path, options);
 };
 
-exports.delete = function(html, options) {
-  return api_request("DELETE", html, options);
+exports.delete = function(url_path, options) {
+  return api_request("DELETE", url_path, options);
 };
 
 /**
@@ -107,7 +107,7 @@ function validate_options(options) {
   return true;
 }
 
-function api_request(method, html, options) {
+function api_request(method, url_path, options) {
 
   return Promise.resolve()
   .then(function(){
@@ -123,9 +123,9 @@ function api_request(method, html, options) {
     }
 
     var accept_version = options.api_version.replace('.','-');
-    var html_parts = html.split('?');
-    var qs = html_parts.length > 1 ? html_parts[1] : '';
-    var path = html_parts.length > 1 ? html_parts[0] + '?' : html_parts[0];
+    var url_path_parts = url_path.split('?');
+    var qs = url_path_parts.length > 1 ? url_path_parts[1] : '';
+    var path = url_path_parts.length > 1 ? url_path_parts[0] + '?' : url_path_parts[0];
     var signature = getSignature(path, options.keys.publishable_key, options.keys.private_key, qs);
 
     var request_headers = {
@@ -138,7 +138,7 @@ function api_request(method, html, options) {
     // construct the request object
     var request_obj = {
       method: method,
-      uri: options.api_host + html,
+      uri: options.api_host + url_path,
       headers: request_headers,
       resolveWithFullResponse: true
     };
