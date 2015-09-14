@@ -23,7 +23,6 @@ var configuration = {
     "private_key"     : ""
   },
   "api_version": "0.1",
-  "client_version": "0.1.0a",
   "api_host": "http://sandbox.fpa.bz/"
 }
 

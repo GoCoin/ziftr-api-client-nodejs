@@ -5,6 +5,8 @@ var request = require('request-promise');
 var crypto = require('crypto');
 var Promise = require('bluebird');
 
+var client_version = "0.1.0-beta.1";
+
 exports.get = function(html, options) {
   return api_request("GET", html, options);
 };
@@ -91,15 +93,12 @@ function validate_options(options) {
     return false;
   }
 
-  // validate that the host version and client version is set, and that we have an api_host
+  // validate that the host version is set, and that we have an api_host
   if(options.api_version === undefined) {
     console.log("Error: api version is not set");
     return false;
   }
-  if(options.client_version === undefined) {
-    console.log("Error: client version is not set");
-    return false;
-  }
+
   if(options.api_host === undefined) {
     console.log("Error: api host is not set");
     return false;
@@ -133,7 +132,7 @@ function api_request(method, html, options) {
       'Content-Type': 'application/json',
       'Accept': 'application/vnd.ziftr.fpa-' + accept_version + '+json',
       'Authorization': 'Basic ' + string_to_base64(options.keys.publishable_key + ':' + signature),
-      'User-Agent': 'Ziftr%20API%20Javascript%20Client%20'+ options.client_version
+      'User-Agent': 'Ziftr%20API%20Javascript%20Client%20'+ client_version
     };
 
     // construct the request object
