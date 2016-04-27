@@ -10,6 +10,8 @@ This branch is under active development and should not be considered stable for 
 
 ```
 npm install ziftr-api-client-nodejs
+# or
+npm install --save git+ssh://git@github.com:GoCoin/ziftr-api-client-nodejs.git
 ```
 
 
