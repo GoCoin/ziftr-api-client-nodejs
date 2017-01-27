@@ -1,24 +1,24 @@
-# ziftr-api-client-nodejs
+# gopaywin-api-client-nodejs
 
-This branch is under active development and should not be considered stable for use in production systems. For more information please visit: [www.ziftrpay.com](http://www.ziftrpay.com/)
+This branch is under active development. For more information please visit: [www.gopaywinpay.com](http://www.gopaywinpay.com/)
 
-[![@awsforphp on Twitter](http://img.shields.io/badge/twitter-%40ziftrapi-blue.svg?style=flat)](https://twitter.com/ziftrapi)
-[![@awsforphp on Twitter](https://img.shields.io/npm/v/ziftr-api-client-nodejs.svg)](https://www.npmjs.com/package/ziftr-api-client-nodejs)
+[![@gopaywin on Twitter](http://img.shields.io/badge/twitter-%40gopaywin-blue.svg?style=flat)](https://twitter.com/gopaywin)
+[![GoPayWin on NPM](https://img.shields.io/npm/v/gopaywin-api-client-nodejs.svg)](https://www.npmjs.com/package/gopaywin-api-client-nodejs)
 
 
 ## Installation
 
 ```
-npm install ziftr-api-client-nodejs
+npm install gopaywin-api-client-nodejs
 # or
-npm install --save git+ssh://git@github.com:GoCoin/ziftr-api-client-nodejs.git
+npm install --save git+ssh://git@github.com:GoCoin/gopaywin-api-client-nodejs.git
 ```
 
 
 ## Usage
 The following call will fetch all orders for the API keys' owner. Be sure to pass configuration data as shown.
 ```
-var api = require('ziftr-api-client-nodejs');
+var api = require('gopaywin-api-client-nodejs');
 var configuration = {
   "keys": {
     "publishable_key" : "",
@@ -39,6 +39,4 @@ api.get("orders", configuration)
 
 ## Links
 
-* [Ziftr API Client for NodeJS on Github](http://github.com/ziftr/ziftr-api-client-nodejs/)
-* [Ziftr website](http://www.ziftr.com/)
-* [ZiftrPAY website](http://www.ziftrpay.com/)
+* [GoPayWin website](http://www.gopaywinpay.com/)
