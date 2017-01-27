@@ -1,6 +1,6 @@
 # GoPayWin API Client for Node.js
 
-This branch is under active development. For more information please visit: [www.gopaywinpay.com](http://www.gopaywinpay.com/)
+This branch is under active development. For more information please visit: [www.gopaywinpay.com](http://www.gopaywin.com/)
 
 [![@gopaywin on Twitter](http://img.shields.io/badge/twitter-%40gopaywin-blue.svg?style=flat)](https://twitter.com/gopaywin)
 [![GoPayWin on NPM](https://img.shields.io/npm/v/gopaywin-api-client.svg)](https://www.npmjs.com/package/gopaywin-api-client)
