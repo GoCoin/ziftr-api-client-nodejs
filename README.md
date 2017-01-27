@@ -1,4 +1,4 @@
-# gopaywin-api-client-nodejs
+# GoPayWin API Client for Node.js
 
 This branch is under active development. For more information please visit: [www.gopaywinpay.com](http://www.gopaywinpay.com/)
 
@@ -16,14 +16,14 @@ npm install --save gopaywin-api-client
 ## Usage
 The following call will fetch all orders for the API keys' owner. Be sure to pass configuration data as shown.
 ```
-var api = require('gopaywin-api-client-nodejs');
+var api = require('gopaywin-api-client');
 var configuration = {
   "keys": {
-    "publishable_key" : "",
-    "private_key"     : ""
+    "publishable_key" : "...",
+    "private_key"     : "..."
   },
   "api_version": "0.1",
-  "api_host": "http://sandbox.fpa.bz/"
+  "api_host": "https://sandbox.fpa.bz/"
 }
 
 api.get("orders", configuration)
