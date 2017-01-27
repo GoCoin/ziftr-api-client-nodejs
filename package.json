@@ -1,5 +1,5 @@
 {
-  "name": "gopaywin-api-client-nodejs",
+  "name": "gopaywin-api-client",
   "version": "0.1.0-beta.1",
   "description": "GoPayWin API Bindings for Node.js",
   "main": "index.js",
