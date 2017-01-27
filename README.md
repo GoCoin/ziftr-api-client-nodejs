@@ -3,15 +3,13 @@
 This branch is under active development. For more information please visit: [www.gopaywinpay.com](http://www.gopaywinpay.com/)
 
 [![@gopaywin on Twitter](http://img.shields.io/badge/twitter-%40gopaywin-blue.svg?style=flat)](https://twitter.com/gopaywin)
-[![GoPayWin on NPM](https://img.shields.io/npm/v/gopaywin-api-client-nodejs.svg)](https://www.npmjs.com/package/gopaywin-api-client-nodejs)
+[![GoPayWin on NPM](https://img.shields.io/npm/v/gopaywin-api-client.svg)](https://www.npmjs.com/package/gopaywin-api-client)
 
 
 ## Installation
 
 ```
-npm install gopaywin-api-client-nodejs
-# or
-npm install --save git+ssh://git@github.com:GoCoin/gopaywin-api-client-nodejs.git
+npm install --save gopaywin-api-client
 ```
 
 
